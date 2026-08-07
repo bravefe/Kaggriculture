@@ -1,7 +1,7 @@
 # [Kaggriculture](https://www.kaggle.com/competitions/kaggriculture)
 
 ## Virtual Environment
-Plese use python **3.11** if not 3.12.
+Use python **3.11** if not 3.12.
 
 สร้าง venv
 ```bash
