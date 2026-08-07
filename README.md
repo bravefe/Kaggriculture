@@ -1,8 +1,9 @@
 # [Kaggriculture](https://www.kaggle.com/competitions/kaggriculture)
 
 ## Virtual Environment
+Plese use python **3.11** if not 3.12.
 
-run this to สร้าง venv
+สร้าง venv
 ```bash
 python -m venv .venv
 ```
@@ -30,11 +31,12 @@ by Georgy Mamarin
 [submission_example.py](submission_example.py) 
 
 ## Requirements
+mainly `kaggle-environments>=1.32.3`
 ```
+kaggle-environments>=1.32.3
 matplotlib
 numpy
 pandas
-kaggle-environments>=1.32.3
 pyarrow
 Pillow
 ipython
