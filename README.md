@@ -19,12 +19,14 @@ pip install -r requirements.txt
 **[kaggriculture/code](https://www.kaggle.com/competitions/kaggriculture/code)** for more code
 ### Basic
 
-*[Start HERE](kaggriculture-getting-started.ipynb)* *kaggriculture-getting-started.ipynb*
+[Start HERE](kaggriculture-getting-started.ipynb) 
+*kaggriculture-getting-started.ipynb*
 by Bovard Doerschuk-Tiberi
 
 
 ### More Explanation and Env Visualization 
-*[HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)* *kaggriculture-visualized-what-every-crop-pays.ipynb*
+[HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)
+*kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
 ## Submission
