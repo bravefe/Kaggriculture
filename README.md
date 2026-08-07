@@ -6,15 +6,14 @@ run this to สร้าง venv
 ```bash
 python -m venv .venv
 ```
-
+activate the venv
 ```bash
 .venv\Scripts\activate
 ```
-
+Then, run this to install all the lib.
 ```bash
 pip install -r requirements.txt
 ```
-to install all the lib.
 
 ### Basic
 
