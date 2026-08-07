@@ -1,0 +1,7 @@
+matplotlib
+numpy
+pandas
+kaggle-environments>=1.32.3
+pyarrow
+Pillow
+ipython
