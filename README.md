@@ -4,6 +4,7 @@
 Therefore, create your own branch or push to existing branch.
 Then, go to [`GitHub web-app`](https://github.com/bravefe/Kaggriculture/pulls) to create pull request.
 ### Use [`issues`](https://github.com/bravefe/Kaggriculture/issues) as to-do list
+After you create the issue it will apear in the `project board`.
 ### Also, [`project board`](https://github.com/users/bravefe/projects/5/views/1) exist
 You just need to be a colaborator to edit it.
 ## Virtual Environment
