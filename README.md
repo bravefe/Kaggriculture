@@ -1,7 +1,7 @@
 # [Kaggriculture](https://www.kaggle.com/competitions/kaggriculture)
 
 ## Virtual Environment
-Plese use python **3.11** if not 3.12.
+Use python **3.11** if not 3.12.
 
 สร้าง venv
 ```bash
@@ -16,13 +16,13 @@ Then, run this to install all the lib.
 pip install -r requirements.txt
 ```
 ## Code
-**[kaggriculture/code](https://www.kaggle.com/competitions/kaggriculture/code)** for more code
+**[kaggriculture/code](https://www.kaggle.com/competitions/kaggriculture/code)**
+for more code
 ### Basic
 
 [Start HERE](kaggriculture-getting-started.ipynb) 
 *kaggriculture-getting-started.ipynb*
 by Bovard Doerschuk-Tiberi
-
 
 ### More Explanation and Env Visualization 
 [HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)
