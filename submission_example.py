@@ -41,7 +41,7 @@ def _find_target_tile(farm, board_size, have_seed):
     candidates.sort(key=lambda c: (priority[c[2]], abs(c[0] - fx) + abs(c[1] - fy)))
     return candidates[0]
 
-def agent(obs):
+def melon_maxxer(obs):
     farms = obs.get("farms", [])
     player = obs.get("player", 0)
     private = obs.get("private", {}) or {}

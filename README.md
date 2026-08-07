@@ -26,7 +26,10 @@ by Bovard Doerschuk-Tiberi
 *[HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)* *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
-### Requirements
+## Submission
+[submission_example.py](submission_example.py) 
+
+## Requirements
 ```
 matplotlib
 numpy
