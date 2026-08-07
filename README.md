@@ -6,7 +6,10 @@ run this to สร้าง venv
 ```bash
 python -m venv .venv
 ```
-then **search or ask chat gpt** on how to activate your open since its diff for each version of python
+
+```bash
+.venv\Scripts\activate
+```
 
 ```bash
 pip install -r requirements.txt
