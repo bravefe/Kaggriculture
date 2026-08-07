@@ -1,4 +1,4 @@
-# [Kaggriculture](https://www.kaggle.com/competitions/kaggriculture/overview)
+# [Kaggriculture](https://www.kaggle.com/competitions/kaggriculture)
 
 ### Virtual Environment
 
