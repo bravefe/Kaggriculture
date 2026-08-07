@@ -16,7 +16,8 @@ Then, run this to install all the lib.
 pip install -r requirements.txt
 ```
 ## Code
-**[kaggriculture/code](https://www.kaggle.com/competitions/kaggriculture/code)**   for more code
+**[kaggriculture/code](https://www.kaggle.com/competitions/kaggriculture/code)**
+for more code
 ### Basic
 
 [Start HERE](kaggriculture-getting-started.ipynb) 
