@@ -24,7 +24,6 @@ for more code
 *kaggriculture-getting-started.ipynb*
 by Bovard Doerschuk-Tiberi
 
-
 ### More Explanation and Env Visualization 
 [HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
