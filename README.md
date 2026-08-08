@@ -10,7 +10,7 @@ You just need to be a colaborator to edit it.
 ## Virtual Environment
 Plese use python **3.11** if not 3.12.
 
-สร้าง venv
+Create venv
 ```bash
 python3.11 -m venv .venv
 ```
@@ -31,7 +31,7 @@ pip install -r requirements.txt
 by Bovard Doerschuk-Tiberi
 
 
-### More Explanation and Env Visualization 
+### More Game Rules and Env Visualization 
 [HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
