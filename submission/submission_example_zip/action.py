@@ -1,12 +1,7 @@
-import json
-
-with open("config.json", "r") as f:
-    config = json.load(f)
-
-CARROT = config["CARROT"]
-MAX_YIELD_DAY = config["MAX_YIELD_DAY"]
-PATCH = [tuple(pos) for pos in config["PATCH"]]
-SHED_TILE = tuple(config["SHED_TILE"])       
+CARROT = "CARROT"
+MAX_YIELD_DAY = 3                                   # CROPS["CARROT"]["max_yield_day"]
+PATCH = [(4, 4), (3, 4), (2, 4), (2, 3), (3, 3), (4, 3)]
+SHED_TILE = (4, 4)                                  # shed-adjacent: DROP works here
 
 
 def step_toward(pos, target):
