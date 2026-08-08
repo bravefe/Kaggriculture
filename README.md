@@ -78,4 +78,4 @@ actions = {
 You can submit as `.py`
 
 [submission_example_zip](submission/submission_example_zip/main.py)
-or you can also submit as zip to include more file, but you do need to include `main.py` in it.
+or you can also submit as `.zip` to include more file, but you do need to include `main.py` in it.

@@ -2,6 +2,3 @@ kaggle-environments>=1.32.3
 matplotlib
 numpy
 pandas
-pyarrow
-Pillow
-ipython
