@@ -50,94 +50,68 @@ actions = {
 
 The dictionary contains actions for the **farmer**, any **hired hands**, and **market transactions**.
 
-## Action dictionary
+## Action format
 
-| Key      | Description                                 |
-| -------- | ------------------------------------------- |
-| `farmer` | A single action performed by the farmer     |
-| `hands`  | A list of actions, one for each hired hand  |
-| `market` | A list of market actions executed this turn |
-
-### Farmer and hand actions
-
-The farmer and hired hands can perform the following actions.
-
-#### Movement
+Each turn returns a dictionary with up to three sections:
 
 ```python
-["MOVE", "NORTH"]
-["MOVE", "SOUTH"]
-["MOVE", "EAST"]
-["MOVE", "WEST"]
+{
+    "farmer": ["PASS"],
+    "hands": [],
+    "market": []
+}
 ```
 
-#### Farming
+### Structure
 
-```python
-["PLANT", crop]
-["WATER"]
-["HARVEST"]
-["DIG"]
-```
+* `farmer`: a single action performed by the farmer.
+* `hands`: a list of actions, one for each hired hand.
+* `market`: a list of market transactions performed this turn.
 
-#### Buildings and collection
+### Farmer and hand operations
 
-```python
-["BUILD_PASTURE"]
-["COLLECT"]
-```
+These operations can be used by both the farmer and any hired hand.
 
-#### No action
+| Operation          | Format                   | Description                     |
+| ------------------ | ------------------------ | ------------------------------- |
+| Move north         | `["NORTH"]`              | Move one tile north             |
+| Move south         | `["SOUTH"]`              | Move one tile south             |
+| Move east          | `["EAST"]`               | Move one tile east              |
+| Move west          | `["WEST"]`               | Move one tile west              |
+| Pass               | `["PASS"]`               | Do nothing                      |
+| Pick up item       | `["PICKUP", item]`       | Pick up one unit of an item     |
+| Pick up multiple   | `["PICKUP", item, n]`    | Pick up `n` units               |
+| Plant crop         | `["PLANT", crop]`        | Plant a crop seed               |
+| Water              | `["WATER"]`              | Water the current tile          |
+| Harvest            | `["HARVEST"]`            | Harvest a mature crop           |
+| Fertilize          | `["FERTILIZE"]`          | Fertilize the current tile      |
+| Build coop         | `["BUILD_COOP"]`         | Construct a coop                |
+| Build pasture      | `["BUILD_PASTURE"]`      | Construct a pasture             |
+| Dig                | `["DIG"]`                | Dig the current tile            |
+| Place item         | `["PLACE", item]`        | Place one unit of an item       |
+| Place multiple     | `["PLACE", item, n]`     | Place `n` units                 |
+| Feed               | `["FEED"]`               | Feed animals                    |
+| Collect fertilizer | `["COLLECT_FERTILIZER"]` | Collect fertilizer from animals |
+| Care               | `["CARE"]`               | Care for animals                |
 
-```python
-["PASS"]
-```
+### Market operations
 
-### Market actions
+These operations are placed inside the `market` list.
 
-The market accepts a list of transactions that will be executed during the turn.
-
-#### Hire workers
-
-```python
-["HIRE"]
-```
-
-#### Expand land
-
-```python
-["BUY_LAND"]
-```
-
-#### Buy seeds
-
-```python
-["BUY_SEED", crop, quantity]
-```
-
-#### Buy animals
-
-```python
-["BUY_ANIMAL", animal, quantity]
-```
-
-#### Buy fertilizer
-
-```python
-["BUY_FERTILIZER", quantity]
-```
-
-#### Sell items
-
-```python
-["SELL", item, quantity]
-```
+| Operation   | Format                      | Description                  |
+| ----------- | --------------------------- | ---------------------------- |
+| Buy seeds   | `["BUY_SEED", crop, n]`     | Buy `n` crop seeds           |
+| Buy product | `["BUY_PRODUCT", item, n]`  | Buy `n` units of a product   |
+| Buy animal  | `["BUY_ANIMAL", animal, n]` | Buy `n` animals              |
+| Sell        | `["SELL", item, n]`         | Sell `n` units of an item    |
+| Hire        | `["HIRE"]`                  | Hire one additional hand     |
+| Buy land    | `["BUY_LAND"]`              | Purchase additional farmland |
 
 ### Example
 
 ```python
-actions = {
-    "farmer": ["MOVE", "EAST"],
+{
+    "farmer": ["PLANT", "CARROT"],
     "hands": [
         ["WATER"],
         ["HARVEST"]
@@ -148,10 +122,6 @@ actions = {
     ]
 }
 ```
-
-This performs one farmer action, two hired-hand actions, and two market transactions in the same turn.
-
-
 
 ## Submission
 [submission_example.py](submission/submission_example.py) 
