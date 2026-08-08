@@ -36,9 +36,9 @@ by Bovard Doerschuk-Tiberi
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
-## Action
+# Action format
 
-The bot returns an action dictionary each step:
+The bot must return an **action dictionary** on every step.
 
 ```python
 actions = {
@@ -48,28 +48,108 @@ actions = {
 }
 ```
 
-### Farmer / Hand Actions
+The dictionary contains actions for the **farmer**, any **hired hands**, and **market transactions**.
 
-* `["PASS"]`
-* `["MOVE", "NORTH"]`
-* `["MOVE", "SOUTH"]`
-* `["MOVE", "EAST"]`
-* `["MOVE", "WEST"]`
-* `["PLANT", crop]`
-* `["WATER"]`
-* `["HARVEST"]`
-* `["DIG"]`
-* `["BUILD_PASTURE"]`
-* `["COLLECT"]`
+## Action dictionary
 
-### Market Actions
+| Key      | Description                                 |
+| -------- | ------------------------------------------- |
+| `farmer` | A single action performed by the farmer     |
+| `hands`  | A list of actions, one for each hired hand  |
+| `market` | A list of market actions executed this turn |
 
-* `["HIRE"]`
-* `["BUY_LAND"]`  
-* `["BUY_SEED", crop, quantity]`
-* `["BUY_ANIMAL", animal, quantity]`
-* `["BUY_FERTILIZER", quantity]`
-* `["SELL", item, quantity]`
+### Farmer and hand actions
+
+The farmer and hired hands can perform the following actions.
+
+#### Movement
+
+```python
+["MOVE", "NORTH"]
+["MOVE", "SOUTH"]
+["MOVE", "EAST"]
+["MOVE", "WEST"]
+```
+
+#### Farming
+
+```python
+["PLANT", crop]
+["WATER"]
+["HARVEST"]
+["DIG"]
+```
+
+#### Buildings and collection
+
+```python
+["BUILD_PASTURE"]
+["COLLECT"]
+```
+
+#### No action
+
+```python
+["PASS"]
+```
+
+### Market actions
+
+The market accepts a list of transactions that will be executed during the turn.
+
+#### Hire workers
+
+```python
+["HIRE"]
+```
+
+#### Expand land
+
+```python
+["BUY_LAND"]
+```
+
+#### Buy seeds
+
+```python
+["BUY_SEED", crop, quantity]
+```
+
+#### Buy animals
+
+```python
+["BUY_ANIMAL", animal, quantity]
+```
+
+#### Buy fertilizer
+
+```python
+["BUY_FERTILIZER", quantity]
+```
+
+#### Sell items
+
+```python
+["SELL", item, quantity]
+```
+
+### Example
+
+```python
+actions = {
+    "farmer": ["MOVE", "EAST"],
+    "hands": [
+        ["WATER"],
+        ["HARVEST"]
+    ],
+    "market": [
+        ["BUY_SEED", "CARROT", 10],
+        ["SELL", "CARROT", 5]
+    ]
+}
+```
+
+This performs one farmer action, two hired-hand actions, and two market transactions in the same turn.
 
 
 
