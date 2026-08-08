@@ -10,7 +10,7 @@ You just need to be a colaborator to edit it.
 ## Virtual Environment
 Plese use python **3.11** if not 3.12.
 
-สร้าง venv
+Create venv
 ```bash
 python3.11 -m venv .venv
 ```
@@ -31,23 +31,51 @@ pip install -r requirements.txt
 by Bovard Doerschuk-Tiberi
 
 
-### More Explanation and Env Visualization 
+### More Game Rules and Env Visualization 
 [HERE](kaggriculture-visualized-what-every-crop-pays.ipynb)
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
+## Action
+
+The bot returns an action dictionary each step:
+
+```python
+actions = {
+    "farmer": [],
+    "hands": [],
+    "market": []
+}
+```
+
+### Farmer / Hand Actions
+
+* `["PASS"]`
+* `["MOVE", "NORTH"]`
+* `["MOVE", "SOUTH"]`
+* `["MOVE", "EAST"]`
+* `["MOVE", "WEST"]`
+* `["PLANT", crop]`
+* `["WATER"]`
+* `["HARVEST"]`
+* `["DIG"]`
+* `["BUILD_PASTURE"]`
+* `["COLLECT"]`
+
+### Market Actions
+
+* `["HIRE"]`
+* `["BUY_LAND"]`  
+* `["BUY_SEED", crop, quantity]`
+* `["BUY_ANIMAL", animal, quantity]`
+* `["BUY_FERTILIZER", quantity]`
+* `["SELL", item, quantity]`
+
+
+
 ## Submission
-[submission_example.py](submission_example.py) 
+[submission_example.py](submission/submission_example.py) 
 You can submit as `.py`
 
-## Requirements
-mainly `kaggle-environments>=1.32.3`
-```
-kaggle-environments>=1.32.3
-matplotlib
-numpy
-pandas
-pyarrow
-Pillow
-ipython
-```
+[submission_example_zip](submission/submission_example_zip/main.py)
+or you can also submit as `.zip` to include more file, but you do need to include `main.py` in it.
