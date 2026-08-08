@@ -16,7 +16,7 @@ def step_toward(pos, target):
     return ["PASS"]
 
 
-def tile_needs(tile, seeds, day):
+def tile_needs(tile, seeds, day):      
     # What this patch tile wants right now, or None.
     if isinstance(tile, dict) and tile.get("kind") == "WEED":
         return ["DIG"]
