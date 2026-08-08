@@ -12,7 +12,7 @@ Plese use python **3.11** if not 3.12.
 
 สร้าง venv
 ```bash
-python -m venv .venv
+python3.11 -m venv .venv
 ```
 activate the venv
 ```bash
