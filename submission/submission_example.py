@@ -31,7 +31,7 @@ def tile_needs(tile, seeds, day):
 
 
 def agent(obs):
-    me = obs["farms"][obs["player"]]
+    me = obs.farms[obs.player]
     private = obs.get("private", {})
     seeds = private.get("seeds", {})
     carrying = (private.get("inventories") or [{}])[0]
@@ -51,6 +51,11 @@ def agent(obs):
     # hour, while a crop past its window decays into a weed — flip the order
     # and watch the far row die before the farmer reaches it.
 
+    if (obs.step % 30) == 0:  
+        market.append(["HIRE"]) 
+        market.append(["HIRE"])    
+        market.append(["BUY_LAND"])  
+        return {"farmer": ["MOVE", "NORTH"], "hands": [], "market": market}
     # 1. Living plants and weeds: the tile underfoot first, then walk to one.
     here = me["tiles"][fy][fx]
     if (fx, fy) in PATCH and here is not None:

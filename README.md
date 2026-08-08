@@ -36,18 +36,43 @@ by Bovard Doerschuk-Tiberi
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
+## Action
+
+The bot returns an action dictionary each step:
+
+```python
+actions = {
+    "farmer": [],
+    "hands": [],
+    "market": []
+}
+```
+
+### Farmer / Hand Actions
+
+* `["PASS"]`
+* `["MOVE", "NORTH"]`
+* `["MOVE", "SOUTH"]`
+* `["MOVE", "EAST"]`
+* `["MOVE", "WEST"]`
+* `["PLANT", crop]`
+* `["WATER"]`
+* `["HARVEST"]`
+* `["DIG"]`
+* `["BUILD_PASTURE"]`
+* `["COLLECT"]`
+
+### Market Actions
+
+* `["HIRE"]`
+* `["BUY_LAND"]`  
+* `["BUY_SEED", crop, quantity]`
+* `["BUY_ANIMAL", animal, quantity]`
+* `["BUY_FERTILIZER", quantity]`
+* `["SELL", item, quantity]`
+
+
+
 ## Submission
 [submission_example.py](submission_example.py) 
 You can submit as `.py`
-
-## Requirements
-mainly `kaggle-environments>=1.32.3`
-```
-kaggle-environments>=1.32.3
-matplotlib
-numpy
-pandas
-pyarrow
-Pillow
-ipython
-```
