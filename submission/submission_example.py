@@ -50,7 +50,7 @@ def agent(obs):
     # Watering and harvesting outrank replanting because a seed can wait an
     # hour, while a crop past its window decays into a weed — flip the order
     # and watch the far row die before the farmer reaches it.
-
+    hand = []
     if (obs.step % 30) == 0:  
         market.append(["HIRE"]) 
         market.append(["HIRE"])    

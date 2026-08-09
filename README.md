@@ -56,17 +56,11 @@ Each turn returns a dictionary with up to three sections:
 
 ```python
 {
-    "farmer": ["PASS"],
+    "farmer": [],
     "hands": [],
     "market": []
 }
 ```
-
-### Structure
-
-* `farmer`: a single action performed by the farmer.
-* `hands`: a list of actions, one for each hired hand.
-* `market`: a list of market transactions performed this turn.
 
 ### Farmer and hand operations
 
