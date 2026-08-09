@@ -25,3 +25,5 @@ def agent(obs):
         return {"farmer": ["NORTH"], "hands": hand, "market": market}
     if (obs.step == 8):
         return {"farmer": ["BUILD_PASTURE"], "hands": hand, "market": market}
+    if (obs.step == 9):
+        return {"farmer": ["WEST"], "hands": hand, "market": market}

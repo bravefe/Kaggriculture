@@ -1,12 +1,19 @@
+print("Loading environment...")
 from kaggle_environments import make
+print("Environment loaded successfully")
+
+from pathlib import Path
 
 env = make("kaggriculture", debug=True)
-agent_0 = "submission/submission_example_zip/main.py"
-agent_1 = "submission/submission_example_zip/main.py"
-env.run([agent_0, agent_1])
+agent_0 = "../submission/submission_example_zip/main.py"
+agent_1 = "../submission/submission_example_zip/main.py"
 
-# obs = env.steps[36][0].observation
-# obs = env.steps[36][1].observation
+if not Path(agent_0).exists():
+    agent_0 = "submission/submission_example_zip/main.py"
+if not Path(agent_1).exists():
+    agent_1 = "submission/submission_example_zip/main.py"
+
+env.run([agent_0, agent_1])
 
 # ---------------------------------------------------------------------------
 # Everything below this line builds a Flask app around the finished episode
