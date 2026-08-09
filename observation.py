@@ -297,8 +297,17 @@ PAGE = """
 <div id="controls">
   <button id="playBtn">Play</button>
   <button id="prevBtn">&laquo; Prev</button>
-  <button id="nextBtn">Next &raquo;</button>
-  <input type="range" id="slider" min="0" max="0" value="0" step="1">
+  <button id="nextBtn">Next &raquo;</button>  <label for="speedSelect" style="color:#eee; font-size:12px; margin-left:8px;">Speed:</label>
+  <select id="speedSelect">
+    <option value="800">0.5x</option>
+    <option value="400" selected>1x</option>
+    <option value="200">2x</option>
+    <option value="100">4x</option>
+    <option value="50">8x</option>
+    <option value="25">16x</option>
+    <option value="10">40x</option>
+    <option value="5">80x</option>
+  </select>  <input type="range" id="slider" min="0" max="0" value="0" step="1">
   <div id="stepLabel">Step 0 / 0</div>
 </div>
 
@@ -310,6 +319,7 @@ let TOTAL_STEPS = 0;
 let currentStep = 0;
 let playing = false;
 let playTimer = null;
+let playSpeedMs = 400;
 const cache = {};
 
 function fetchStep(idx) {
@@ -527,23 +537,37 @@ async function showStep(idx) {
   document.getElementById('status').textContent = 'Episode loaded: ' + TOTAL_STEPS + ' steps.';
 }
 
+function startPlayTimer() {
+  playTimer = setInterval(() => {
+    if (currentStep >= TOTAL_STEPS - 1) {
+      togglePlay();
+      return;
+    }
+    showStep(currentStep + 1);
+  }, playSpeedMs);
+}
+
 function togglePlay() {
   playing = !playing;
   document.getElementById('playBtn').textContent = playing ? 'Pause' : 'Play';
   if (playing) {
-    playTimer = setInterval(() => {
-      if (currentStep >= TOTAL_STEPS - 1) {
-        togglePlay();
-        return;
-      }
-      showStep(currentStep + 1);
-    }, 400);
+    startPlayTimer();
   } else {
     clearInterval(playTimer);
   }
 }
 
+function updatePlaySpeed() {
+  const select = document.getElementById('speedSelect');
+  playSpeedMs = parseInt(select.value, 10) || 400;
+  if (playing) {
+    clearInterval(playTimer);
+    startPlayTimer();
+  }
+}
+
 document.getElementById('playBtn').addEventListener('click', togglePlay);
+document.getElementById('speedSelect').addEventListener('change', updatePlaySpeed);
 document.getElementById('prevBtn').addEventListener('click', () => showStep(currentStep - 1));
 document.getElementById('nextBtn').addEventListener('click', () => showStep(currentStep + 1));
 document.getElementById('slider').addEventListener('input', (e) => showStep(parseInt(e.target.value, 10)));
