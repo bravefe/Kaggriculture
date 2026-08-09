@@ -16,7 +16,7 @@ def step_toward(pos, target):
     return ["PASS"]
 
 
-def tile_needs(tile, seeds, day):
+def tile_needs(tile, seeds, day):      
     # What this patch tile wants right now, or None.
     if isinstance(tile, dict) and tile.get("kind") == "WEED":
         return ["DIG"]
@@ -50,7 +50,7 @@ def agent(obs):
     # Watering and harvesting outrank replanting because a seed can wait an
     # hour, while a crop past its window decays into a weed — flip the order
     # and watch the far row die before the farmer reaches it.
-
+    hand = []
     if (obs.step % 30) == 0:  
         market.append(["HIRE"]) 
         market.append(["HIRE"])    

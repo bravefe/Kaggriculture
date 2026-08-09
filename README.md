@@ -36,9 +36,9 @@ by Bovard Doerschuk-Tiberi
 *kaggriculture-visualized-what-every-crop-pays.ipynb*
 by Georgy Mamarin
 
-## Action
+# Action format
 
-The bot returns an action dictionary each step:
+The bot must return an **action dictionary** on every step.
 
 ```python
 actions = {
@@ -48,30 +48,74 @@ actions = {
 }
 ```
 
-### Farmer / Hand Actions
+The dictionary contains actions for the **farmer**, any **hired hands**, and **market transactions**.
 
-* `["PASS"]`
-* `["MOVE", "NORTH"]`
-* `["MOVE", "SOUTH"]`
-* `["MOVE", "EAST"]`
-* `["MOVE", "WEST"]`
-* `["PLANT", crop]`
-* `["WATER"]`
-* `["HARVEST"]`
-* `["DIG"]`
-* `["BUILD_PASTURE"]`
-* `["COLLECT"]`
+## Action format
 
-### Market Actions
+Each turn returns a dictionary with up to three sections:
 
-* `["HIRE"]`
-* `["BUY_LAND"]`  
-* `["BUY_SEED", crop, quantity]`
-* `["BUY_ANIMAL", animal, quantity]`
-* `["BUY_FERTILIZER", quantity]`
-* `["SELL", item, quantity]`
+```python
+{
+    "farmer": [],
+    "hands": [],
+    "market": []
+}
+```
 
+### Farmer and hand operations
 
+These operations can be used by both the farmer and any hired hand.
+
+| Operation          | Format                   | Description                     |
+| ------------------ | ------------------------ | ------------------------------- |
+| Move north         | `["NORTH"]`              | Move one tile north             |
+| Move south         | `["SOUTH"]`              | Move one tile south             |
+| Move east          | `["EAST"]`               | Move one tile east              |
+| Move west          | `["WEST"]`               | Move one tile west              |
+| Pass               | `["PASS"]`               | Do nothing                      |
+| Pick up item       | `["PICKUP", item]`       | Pick up one unit of an item     |
+| Pick up multiple   | `["PICKUP", item, n]`    | Pick up `n` units               |
+| Plant crop         | `["PLANT", crop]`        | Plant a crop seed               |
+| Water              | `["WATER"]`              | Water the current tile          |
+| Harvest            | `["HARVEST"]`            | Harvest a mature crop           |
+| Fertilize          | `["FERTILIZE"]`          | Fertilize the current tile      |
+| Build coop         | `["BUILD_COOP"]`         | Construct a coop                |
+| Build pasture      | `["BUILD_PASTURE"]`      | Construct a pasture             |
+| Dig                | `["DIG"]`                | Dig the current tile            |
+| Place item         | `["PLACE", item]`        | Place one unit of an item       |
+| Place multiple     | `["PLACE", item, n]`     | Place `n` units                 |
+| Feed               | `["FEED"]`               | Feed animals                    |
+| Collect fertilizer | `["COLLECT_FERTILIZER"]` | Collect fertilizer from animals |
+| Care               | `["CARE"]`               | Care for animals                |
+
+### Market operations
+
+These operations are placed inside the `market` list.
+
+| Operation   | Format                      | Description                  |
+| ----------- | --------------------------- | ---------------------------- |
+| Buy seeds   | `["BUY_SEED", crop, n]`     | Buy `n` crop seeds           |
+| Buy product | `["BUY_PRODUCT", item, n]`  | Buy `n` units of a product   |
+| Buy animal  | `["BUY_ANIMAL", animal, n]` | Buy `n` animals              |
+| Sell        | `["SELL", item, n]`         | Sell `n` units of an item    |
+| Hire        | `["HIRE"]`                  | Hire one additional hand     |
+| Buy land    | `["BUY_LAND"]`              | Purchase additional farmland |
+
+### Example
+
+```python
+{
+    "farmer": ["PLANT", "CARROT"],
+    "hands": [
+        ["WATER"],
+        ["HARVEST"]
+    ],
+    "market": [
+        ["BUY_SEED", "CARROT", 10],
+        ["SELL", "CARROT", 5]
+    ]
+}
+```
 
 ## Submission
 [submission_example.py](submission/submission_example.py) 
