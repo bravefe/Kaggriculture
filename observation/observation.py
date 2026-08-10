@@ -5,7 +5,7 @@ print("Environment loaded successfully")
 from pathlib import Path
 
 env = make("kaggriculture", debug=True)
-agent_0 = "../submission/submission_example_zip/main.py"
+agent_0 = "../submission/simple_agent.py"
 agent_1 = "../submission/submission_example_zip/main.py"
 
 if not Path(agent_0).exists():
