@@ -4,11 +4,80 @@ from kaggle_environments import make
 
 from data_format import (
     FEATURE_DIM,
-    ACTION_TABLE,
     preprocess,
-    wheat_reward,
-    decode_action,
 )
+
+# ============================================================
+# ACTIONS
+# ============================================================
+
+ACTION_TABLE = [
+    {"farmer": ["PASS"], "hands": [], "market": []},
+    {"farmer": ["NORTH"], "hands": [], "market": []},
+    {"farmer": ["SOUTH"], "hands": [], "market": []},
+    {"farmer": ["EAST"], "hands": [], "market": []},
+    {"farmer": ["WEST"], "hands": [], "market": []},
+    {"farmer": ["PLANT", "WHEAT"], "hands": [], "market": []},
+    {"farmer": ["WATER"], "hands": [], "market": []},
+    {"farmer": ["HARVEST"], "hands": [], "market": []},
+]
+
+# ============================================================
+# ACTION DECODER
+# ============================================================
+
+def decode_action(action_id):
+
+    if (
+        action_id < 0
+        or action_id >= len(ACTION_TABLE)
+    ):
+        action_id = 0
+
+    return ACTION_TABLE[action_id]
+
+# ============================================================
+# REWARD
+# ============================================================
+
+def wheat_reward(obs):
+
+    try:
+
+        if "farms" in obs and obs["farms"]:
+
+            farm = obs["farms"][0]
+
+            private = farm.get(
+                "private",
+                {}
+            )
+
+            shed = (
+                private.get("shed", {})
+                if isinstance(private, dict)
+                else {}
+            )
+
+            return float(
+                shed.get("WHEAT", 0)
+            )
+
+        if "private" in obs:
+
+            shed = obs["private"].get(
+                "shed",
+                {}
+            )
+
+            return float(
+                shed.get("WHEAT", 0)
+            )
+
+    except Exception:
+        pass
+
+    return 0.0
 
 
 # ============================================================

@@ -43,23 +43,9 @@ ANIMAL_TO_IDX = {
 #
 # [kind, crop/animal, yield_units, watered/fed, fertilizer/bonus]
 #
+
+
 FEATURE_DIM = 5
-
-
-# ============================================================
-# ACTIONS
-# ============================================================
-
-ACTION_TABLE = [
-    {"farmer": ["PASS"], "hands": [], "market": []},
-    {"farmer": ["NORTH"], "hands": [], "market": []},
-    {"farmer": ["SOUTH"], "hands": [], "market": []},
-    {"farmer": ["EAST"], "hands": [], "market": []},
-    {"farmer": ["WEST"], "hands": [], "market": []},
-    {"farmer": ["PLANT", "WHEAT"], "hands": [], "market": []},
-    {"farmer": ["WATER"], "hands": [], "market": []},
-    {"farmer": ["HARVEST"], "hands": [], "market": []},
-]
 
 
 # ============================================================
@@ -265,62 +251,3 @@ def preprocess(obs, player_index=0):
             board[y, x] = tile_to_vector(tile)
 
     return board
-
-
-# ============================================================
-# REWARD
-# ============================================================
-
-def wheat_reward(obs):
-
-    try:
-
-        if "farms" in obs and obs["farms"]:
-
-            farm = obs["farms"][0]
-
-            private = farm.get(
-                "private",
-                {}
-            )
-
-            shed = (
-                private.get("shed", {})
-                if isinstance(private, dict)
-                else {}
-            )
-
-            return float(
-                shed.get("WHEAT", 0)
-            )
-
-        if "private" in obs:
-
-            shed = obs["private"].get(
-                "shed",
-                {}
-            )
-
-            return float(
-                shed.get("WHEAT", 0)
-            )
-
-    except Exception:
-        pass
-
-    return 0.0
-
-
-# ============================================================
-# ACTION DECODER
-# ============================================================
-
-def decode_action(action_id):
-
-    if (
-        action_id < 0
-        or action_id >= len(ACTION_TABLE)
-    ):
-        action_id = 0
-
-    return ACTION_TABLE[action_id]
