@@ -240,10 +240,24 @@ def extract_context(obs, player_index=0):
     overage = float(obs.get("remainingOverageTime", 0))
     step = float(obs.get("step", 0)) / 719
 
-    context = np.array(
-        [money, farmer_x, farmer_y, money_op, farmer_op_x, farmer_op_y, step, overage],
+    shed = np.array(
+        [obs.private.shed.get(crop, 0) for crop in CROP_TO_IDX],
         dtype=np.float32
     )
+
+    seeds = np.array(
+        [obs.private.seeds.get(crop, 0) for crop in CROP_TO_IDX],
+        dtype=np.float32
+    )    
+
+    wheat = obs.private.shed.get("WHEAT", 0)
+    context = np.concatenate(
+        [
+            [money, farmer_x, farmer_y, money_op, farmer_op_x, farmer_op_y, step, overage],
+            shed,
+            seeds,
+        ]
+    ).astype(np.float32)
 
     return context
 

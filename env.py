@@ -2,7 +2,7 @@ import gymnasium as gym
 import numpy as np
 from kaggle_environments import make
 
-from data_format import (
+from data import (
     FEATURE_DIM,
     preprocess,
 )
