@@ -237,6 +237,8 @@ def extract_context(obs, player_index=0):
     farmer_op_x = x / 10.0
     farmer_op_y = y / 10.0
 
+    farmer_wheat = obs.private.inventories[0].get("WHEAT", 0)
+    
     overage = float(obs.get("remainingOverageTime", 0))
     step = float(obs.get("step", 0)) / 719
 
@@ -250,10 +252,9 @@ def extract_context(obs, player_index=0):
         dtype=np.float32
     )    
 
-    wheat = obs.private.shed.get("WHEAT", 0)
     context = np.concatenate(
         [
-            [money, farmer_x, farmer_y, money_op, farmer_op_x, farmer_op_y, step, overage],
+            [money, farmer_x, farmer_y, money_op, farmer_op_x, farmer_op_y, step, overage, farmer_wheat],
             shed,
             seeds,
         ]
