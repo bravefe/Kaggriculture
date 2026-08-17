@@ -2,3 +2,5 @@ kaggle-environments>=1.32.3
 matplotlib
 numpy
 pandas
+stable-baselines3 
+sb3-contrib
