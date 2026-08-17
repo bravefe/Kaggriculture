@@ -216,8 +216,36 @@ def extract_tiles(obs, player_index=0):
                     ):
                         return item["tiles"]
 
+            
+
     return []
 
+def extract_context(obs, player_index=0):
+    farms = obs.get("farms", [])
+    farm = farms[player_index]
+    money = float(farm.get("money", 0.0)) 
+    farmer = farm.get("farmer", [0, 0])
+    x, y = farmer
+    farmer_x = x / 10.0
+    farmer_y = y / 10.0
+
+    opponent_index = 1 - player_index
+    farm_op = farms[opponent_index]
+    money_op = float(farm_op.get("money", 0.0)) 
+    farmer_op = farm_op.get("farmer", [0, 0])
+    x, y = farmer_op
+    farmer_op_x = x / 10.0
+    farmer_op_y = y / 10.0
+
+    overage = float(obs.get("remainingOverageTime", 0))
+    step = float(obs.get("step", 0)) / 719
+
+    context = np.array(
+        [money, farmer_x, farmer_y, money_op, farmer_op_x, farmer_op_y, step, overage],
+        dtype=np.float32
+    )
+
+    return context
 
 # ============================================================
 # PREPROCESS
@@ -230,24 +258,98 @@ def preprocess(obs, player_index=0):
         player_index
     )
 
+    context = extract_context(
+        obs,
+        player_index
+    )
+
     if not tiles:
-        return np.zeros(
+        board = np.zeros(
             (1, 1, FEATURE_DIM),
             dtype=np.float32
         )
+    else:
+        rows = len(tiles)
+        cols = len(tiles[0])
 
-    rows = len(tiles)
-    cols = len(tiles[0])
+        board = np.zeros(
+            (rows, cols, FEATURE_DIM),
+            dtype=np.float32
+        )
 
-    board = np.zeros(
-        (rows, cols, FEATURE_DIM),
-        dtype=np.float32
-    )
+        for y, row in enumerate(tiles):
+            for x, tile in enumerate(row):
+                board[y, x] = tile_to_vector(tile)
 
-    for y, row in enumerate(tiles):
+    board_flat = board.flatten()
 
-        for x, tile in enumerate(row):
+    output = np.concatenate([
+        board_flat,
+        context
+    ])
 
-            board[y, x] = tile_to_vector(tile)
+    return output
 
-    return board
+# def preprocess(obs, player_index=0):
+
+#     tiles = extract_tiles(
+#         obs,
+#         player_index
+#     )
+
+#     if not tiles:
+#         return np.zeros(
+#             (1, 1, FEATURE_DIM),
+#             dtype=np.float32
+#         )
+
+#     rows = len(tiles)
+#     cols = len(tiles[0])
+
+#     board = np.zeros(
+#         (rows, cols, FEATURE_DIM),
+#         dtype=np.float32
+#     )
+
+#     for y, row in enumerate(tiles):
+
+#         for x, tile in enumerate(row):
+
+#             board[y, x] = tile_to_vector(tile)
+
+#     return board
+
+
+# def preprocess(obs, player_index=0):
+
+#     tiles = extract_tiles(
+#         obs,
+#         player_index
+#     )
+
+#     context = extract_context(
+#         obs,
+#         player_index
+#     )
+
+#     if not tiles:
+#         board = np.zeros(
+#             (1, 1, FEATURE_DIM),
+#             dtype=np.float32
+#         )
+#         return board, context
+
+#     rows = len(tiles)
+#     cols = len(tiles[0])
+
+#     board = np.zeros(
+#         (rows, cols, FEATURE_DIM),
+#         dtype=np.float32
+#     )
+
+#     for y, row in enumerate(tiles):
+#         for x, tile in enumerate(row):
+#             board[y, x] = tile_to_vector(tile)
+
+#     return board, context
+
