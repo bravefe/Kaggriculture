@@ -31,4 +31,13 @@ def agent(obs):
         market.append(["BUY_ANIMAL", "SHEEP", 10])
         return {"farmer": ["WEST"], "hands": hand, "market": market}
     if (obs.step == 10):
+        market.append(["BUY_SEED", "WHEAT", 10])
         return {"farmer": ["PLANT", "MELON"], "hands": hand, "market": market}
+    if (obs.step == 11):
+        return {"farmer": ["WEST"], "hands": hand, "market": market}
+    if (obs.step == 12):
+        return {"farmer": ["PLANT", "WHEAT"], "hands": hand, "market": market}
+    if (obs.step == 13):
+        return {"farmer": ["WATER"], "hands": hand, "market": market}
+    if (obs.step == 14):
+        return {"farmer": ["HARVEST"], "hands": hand, "market": market}
