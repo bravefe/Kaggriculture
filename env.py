@@ -23,11 +23,18 @@ ACTION_TABLE = [
     {"farmer": ["DROP"], "hands": [], "market": []},
 ]
 
+MAX_WHEAT_TRANSACTION = 10
+
 # ============================================================
 # ACTION DECODER
 # ============================================================
 
-def decode_action(action_id):
+def decode_action(action):
+
+    action_values = np.asarray(action).reshape(-1)
+    action_id = int(action_values[0]) if action_values.size else 0
+    buy_wheat = int(action_values[1]) if action_values.size > 1 else 0
+    sell_wheat = int(action_values[2]) if action_values.size > 2 else 0
 
     if (
         action_id < 0
@@ -35,7 +42,18 @@ def decode_action(action_id):
     ):
         action_id = 0
 
-    return ACTION_TABLE[action_id]
+    market = []
+    if buy_wheat > 0:
+        market.append(["BUY_SEED", "WHEAT", buy_wheat])
+    if sell_wheat > 0:
+        market.append(["SELL", "WHEAT", sell_wheat])
+
+    farmer_action = ACTION_TABLE[action_id]
+    return {
+        "farmer": farmer_action["farmer"],
+        "hands": [],
+        "market": market,
+    }
 
 # ============================================================
 # REWARD
@@ -98,8 +116,12 @@ class KaggricultureEnv(gym.Env):
             debug=False
         )
 
-        self.action_space = gym.spaces.Discrete(
-            len(ACTION_TABLE)
+        self.action_space = gym.spaces.MultiDiscrete(
+            [
+                len(ACTION_TABLE),
+                MAX_WHEAT_TRANSACTION + 1,
+                MAX_WHEAT_TRANSACTION + 1,
+            ]
         )
 
         self.observation_space = gym.spaces.Box(

@@ -49,6 +49,11 @@ actions = {
 }
 ```
 
+The Gym wrapper in `env.py` uses a `MultiDiscrete` action with the format
+`[farmer_action_id, buy_wheat_quantity, sell_wheat_quantity]`. Quantities are
+from 0 to 10; 0 means no transaction. Both quantities can be nonzero while
+the farmer walks, plants, or performs another farmer action.
+
 The dictionary contains actions for the **farmer**, any **hired hands**, and **market transactions**.
 
 ## Action format
@@ -79,6 +84,7 @@ These operations can be used by both the farmer and any hired hand.
 | Plant crop         | `["PLANT", crop]`        | Plant a crop seed               |
 | Water              | `["WATER"]`              | Water the current tile          |
 | Harvest            | `["HARVEST"]`            | Harvest a mature crop           |
+| Drop items         | `["DROP"]`               | Drop carried items at the shed  |
 | Fertilize          | `["FERTILIZE"]`          | Fertilize the current tile      |
 | Build coop         | `["BUILD_COOP"]`         | Construct a coop                |
 | Build pasture      | `["BUILD_PASTURE"]`      | Construct a pasture             |
