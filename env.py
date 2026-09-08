@@ -21,9 +21,20 @@ ACTION_TABLE = [
     {"farmer": ["WATER"], "hands": [], "market": []},
     {"farmer": ["HARVEST"], "hands": [], "market": []},
     {"farmer": ["DROP"], "hands": [], "market": []},
+    {"farmer": ["PICKUP", "WHEAT", 1], "hands": [], "market": []},
 ]
 
 MAX_WHEAT_TRANSACTION = 10
+
+ACTION_DESCRIPTION = (
+    'Per-turn action of the form {"farmer": [op, ...args], '
+    '"hands": [[op, ...args], ...], "market": [[op, ...args], ...]}. '
+    'Farmer/hand ops: NORTH, SOUTH, EAST, WEST, PASS, PICKUP <item> [n], '
+    'PLANT <crop>, WATER, HARVEST, DROP, FERTILIZE, BUILD_COOP, '
+    'BUILD_PASTURE, DIG, PLACE <item> [n], FEED, COLLECT_FERTILIZER, CARE. '
+    'Market ops: BUY_SEED <crop> <n>, BUY_PRODUCT <item> <n>, '
+    'BUY_ANIMAL <animal> <n>, SELL <item> <n>, HIRE, BUY_LAND.'
+)
 
 # ============================================================
 # ACTION DECODER
@@ -59,7 +70,94 @@ def decode_action(action):
 # REWARD
 # ============================================================
 
-def wheat_reward(obs):
+def _private_value(obs, key, default):
+
+    private = obs.get("private", {})
+    if not isinstance(private, dict):
+        return default
+
+    return private.get(key, default)
+
+
+def _wheat_inventory(obs):
+
+    inventories = _private_value(obs, "inventories", [])
+    if not inventories or not isinstance(inventories[0], dict):
+        return 0.0
+
+    return float(inventories[0].get("WHEAT", 0))
+
+
+def _wheat_shed(obs):
+
+    shed = _private_value(obs, "shed", {})
+    if not isinstance(shed, dict):
+        return 0.0
+
+    return float(shed.get("WHEAT", 0))
+
+
+def _current_tile(obs, player_index):
+
+    farms = obs.get("farms", [])
+    if not farms or player_index >= len(farms):
+        return None
+
+    farm = farms[player_index]
+    position = farm.get("farmer", [0, 0])
+    tiles = farm.get("tiles", [])
+    x, y = position
+
+    if y < 0 or y >= len(tiles) or x < 0 or x >= len(tiles[y]):
+        return None
+
+    return tiles[y][x]
+
+
+def wheat_reward(previous_obs, obs, action, player_index):
+
+    farmer_action = action.get("farmer", [])
+    reward = 0.0
+
+    if farmer_action == ["PLANT", "WHEAT"]:
+        before_tile = _current_tile(previous_obs, player_index)
+        after_tile = _current_tile(obs, player_index)
+        if (
+            before_tile is None
+            and isinstance(after_tile, dict)
+            and after_tile.get("kind") == "PLANT"
+            and after_tile.get("crop") == "WHEAT"
+        ):
+            reward += 1.0
+
+    if farmer_action == ["WATER"]:
+        before_tile = _current_tile(previous_obs, player_index)
+        after_tile = _current_tile(obs, player_index)
+        if (
+            isinstance(before_tile, dict)
+            and before_tile.get("kind") == "PLANT"
+            and before_tile.get("crop") == "WHEAT"
+            and not before_tile.get("watered_today", False)
+            and isinstance(after_tile, dict)
+            and after_tile.get("watered_today", False)
+        ):
+            reward += 1.0
+
+    inventory_change = _wheat_inventory(obs) - _wheat_inventory(previous_obs)
+    if farmer_action in (
+        ["HARVEST"],
+        ["PICKUP", "WHEAT", 1],
+    ):
+        reward += max(0.0, inventory_change)
+
+    shed_change = _wheat_shed(previous_obs) - _wheat_shed(obs)
+    if any(
+        order[:2] == ["SELL", "WHEAT"]
+        for order in action.get("market", [])
+    ):
+        reward += max(0.0, shed_change)
+
+    return reward
 
     try:
 
@@ -115,6 +213,7 @@ class KaggricultureEnv(gym.Env):
             "kaggriculture",
             debug=False
         )
+        self.env.specification.action.description = ACTION_DESCRIPTION
 
         self.action_space = gym.spaces.MultiDiscrete(
             [
@@ -189,6 +288,7 @@ class KaggricultureEnv(gym.Env):
 
     def step(self, action_id):
 
+        previous_obs = self._get_current_obs()
         action = decode_action(
             action_id
         )
@@ -211,7 +311,12 @@ class KaggricultureEnv(gym.Env):
             self.player_index
         )
 
-        reward = wheat_reward(obs)
+        reward = wheat_reward(
+            previous_obs,
+            obs,
+            action,
+            self.player_index,
+        )
 
         done = bool(
             getattr(

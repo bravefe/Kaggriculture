@@ -3,44 +3,15 @@ from kaggle_environments import make
 print("Environment loaded successfully")
 
 from pathlib import Path
-import sys
-
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-  sys.path.insert(0, str(ROOT))
-
-from data import preprocess
-from env import decode_action
-from stable_baselines3 import PPO
 
 env = make("kaggriculture", debug=True)
+agent_0 = "../submission/simple_agent.py"
+agent_1 = "../submission/submission_example_zip/main.py"
 
-
-def make_rl_agent(model_path):
-  model = PPO.load(model_path)
-
-  def agent(obs):
-    player_index = int(obs.get("player", 0))
-    encoded = preprocess(obs, player_index)
-    action_id, _ = model.predict(encoded, deterministic=True)
-    return decode_action(action_id)
-
-  return agent
-
-
-model_0 = ROOT / "models" / "wheat_agent_a_final.zip"
-model_1 = ROOT / "models" / "wheat_agent_b.zip"
-
-agent_0 = (
-  make_rl_agent(model_0)
-  if model_0.exists()
-  else str(ROOT / "submission" / "submission_example_zip" / "main.py")
-)
-agent_1 = (
-  make_rl_agent(model_1)
-  if model_1.exists()
-  else str(ROOT / "submission" / "submission_example_zip" / "main.py")
-)
+if not Path(agent_0).exists():
+    agent_0 = "submission/submission_example_zip/main.py"
+if not Path(agent_1).exists():
+    agent_1 = "submission/submission_example_zip/main.py"
 
 env.run([agent_0, agent_1])
 

@@ -2,5 +2,6 @@ kaggle-environments>=1.32.3
 matplotlib
 numpy
 pandas
+gymnasium>=0.29.1
 stable-baselines3 
 sb3-contrib
