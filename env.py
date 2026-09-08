@@ -20,6 +20,7 @@ ACTION_TABLE = [
     {"farmer": ["PLANT", "WHEAT"], "hands": [], "market": []},
     {"farmer": ["WATER"], "hands": [], "market": []},
     {"farmer": ["HARVEST"], "hands": [], "market": []},
+    {"farmer": ["DROP"], "hands": [], "market": []},
 ]
 
 # ============================================================
